@@ -1,24 +1,312 @@
 {
     "common": {
         "name":                     "vuplus",
-        "version":                  "0.0.4",
-        "title":                    "vuplus Adapter",
-        "desc":                     "Javascript/Node.js based vuplus adapter",
+        "version":                  "0.1.0",
+        "news": {
+            "0.1.0": {
+                "en": "initial commit",
+                "de": "Erste Version",
+                "ru": "Первая версия"
+            }
+        },
+        "title":                    "VU+ Adapter",
+        "desc": {
+            "en": "Adapter for VU+, SAT receiver, EnigmaLight devices",
+            "de": "Adapter für VU+, SAT receiver, EnigmaLight Geräte",
+            "ru": "Драйвер для VU+, SAT receiver, EnigmaLight"
+        },
         "platform":                 "Javascript/Node.js",
+        "license":                  "MIT",
         "mode":                     "daemon",
         "icon":                     "vuplus.png",
         "extIcon":                  "https://raw.githubusercontent.com/vader722/ioBroker.vuplus/master/admin/vuplus.png",
         "loglevel":                 "info",
-        "nondeletable":             true,
-        "type":                     "common adapters"
+        "type":                     "multimedia"
     },
     "native": {
-        "IPAddress": "192.168.179.28",
+        "IPAddress": "0.0.0.0",
         "Username": "",
         "Password": "",
         "PollingInterval": 5000
     },
     "objects": [
 
+    ],
+    "instanceObjects": [
+        {
+            "_id":  "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id":  "info.connection",
+            "type": "state",
+            "common": {
+                "role":  "indicator.connected",
+                "name":  "If connected to VU+",
+                "type":  "boolean",
+                "read":  true,
+                "write": false,
+                "def":   false
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus",
+            "type": "channel",
+            "common": {
+                "name": "VuPlus device"
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.VOLUME",
+            "type": "state",
+            "common": {
+                "role":  "level.volume",
+                "name":  "Vu+ volume",
+                "type":  "number",
+                "min": 0,
+                "max": 100,
+                "read":  true,
+                "write": true
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.MUTED",
+            "type": "state",
+            "common": {
+                "role":  "state",
+                "name":  "Vu+ mute",
+                "type":  "boolean",
+                "read":  true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.STANDBY",
+            "type": "state",
+            "common": {
+                "role":  "switch",
+                "name":  "Vu+ is standby",
+                "type":  "boolean",
+                "read":  true,
+                "write": true
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.DOWNMIX",
+            "type": "state",
+            "common": {
+                "role":  "state",
+                "name":  "Vu+ downmix state",
+                "type":  "boolean",
+                "read":  true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.CHANNEL",
+            "type": "state",
+            "common": {
+                "role":  "state",
+                "name":  "Vu+ channel",
+                "type":  "string",
+                "read":  true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.HDD_CAPACITY",
+            "type": "state",
+            "common": {
+                "role":  "value",
+                "name":  "Vu+ HDD capacity",
+                "type":  "string",
+                "read":  true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.HDD_FREE",
+            "type": "state",
+            "common": {
+                "role":  "value",
+                "name":  "Vu+ HDD free space",
+                "type":  "string",
+                "read":  true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.RC.TOGGLE_MUTE",
+            "type": "state",
+            "common": {
+                "role":  "button",
+                "name":  "Vu+ toggle mute state",
+                "type":  "boolean",
+                "read":  false,
+                "write": true
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.RC.CHANNEL_UP",
+            "type": "state",
+            "common": {
+                "role":  "button",
+                "name":  "Vu+ channel UP",
+                "type":  "boolean",
+                "read":  false,
+                "write": true
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.RC.CHANNEL_DOWN",
+            "type": "state",
+            "common": {
+                "role":  "button",
+                "name":  "Vu+ channel DOWN",
+                "type":  "boolean",
+                "read":  false,
+                "write": true
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.RC.PLAY_PAUSE",
+            "type": "state",
+            "common": {
+                "role":  "button",
+                "name":  "Vu+ toggle play/pause",
+                "type":  "boolean",
+                "read":  false,
+                "write": true
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.RC.VOLUME_UP",
+            "type": "state",
+            "common": {
+                "role":  "button",
+                "name":  "Vu+ volume UP",
+                "type":  "boolean",
+                "read":  false,
+                "write": true
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.RC.VOLUME_DOWN",
+            "type": "state",
+            "common": {
+                "role":  "button",
+                "name":  "Vu+ volume DOWN",
+                "type":  "boolean",
+                "read":  false,
+                "write": true
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.COMMAND",
+            "type": "state",
+            "common": {
+                "role":  "state",
+                "name":  "Vu+ send remote control command as number",
+                "type":  "number",
+                "read":  true,
+                "write": true
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.Current",
+            "type": "channel",
+            "common": {
+                "name":  "Vu+ current state"
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.Current.PROVIDER",
+            "type": "state",
+            "common": {
+                "role":  "state",
+                "name":  "Vu+ provider",
+                "type":  "string",
+                "read":  true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.Current.TITLE",
+            "type": "state",
+            "common": {
+                "role":  "state",
+                "name":  "Vu+ provider",
+                "type":  "string",
+                "read":  true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.Current.DESC",
+            "type": "state",
+            "common": {
+                "role":  "state",
+                "name":  "Vu+ provider",
+                "type":  "string",
+                "read":  true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.EnigmaLight",
+            "type": "channel",
+            "common": {
+                "name":  "EnigmaLight"
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.EnigmaLight.ENABLED",
+            "type": "state",
+            "common": {
+                "role":  "state",
+                "name":  "Is Enigma light detected",
+                "type":  "boolean",
+                "read":  true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id":  "VuPlus.EnigmaLight.LightsOn",
+            "type": "state",
+            "common": {
+                "role":  "switch",
+                "name":  "Turn the LEDs on EnigmaLight ON and OFF",
+                "type":  "boolean",
+                "read":  true,
+                "write": true
+            },
+            "native": {}
+        }
     ]
 }

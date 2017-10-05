@@ -1,0 +1,50 @@
+{
+  "name": "iobroker.vuplus",
+  "description": "Adapter for ioBroker to connect to a vuplus or SAT receiver",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "contributors": [
+    "vader722"
+  ],
+  "author": "vader722",
+  "homepage": "https://github.com/vader722/ioBroker.vuplus",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/vader722/ioBroker.vuplus/blob/master/LICENSE"
+    }
+  ],
+  "keywords": [
+    "ioBroker",
+    "vuplus",
+    "enigma2",
+    "dreambox"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vader722/ioBroker.vuplus"
+  },
+  "dependencies": {
+    "request": "^2.83.0",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-replace": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-jscs": "^3.0.1",
+    "grunt-http": "^2.2.0",
+    "mocha": "^3.5.3",
+    "chai": "^4.1.2"
+  },
+  "bugs": {
+    "url": "https://github.com/vader722/ioBroker.vuplus/issues"
+  },
+  "main": "vuplus.js",
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha"
+  },
+  "license": "MIT"
+}

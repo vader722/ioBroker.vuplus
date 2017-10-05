@@ -1,9 +1,33 @@
 ![Logo](admin/vuplus.png)
-ioBroker vuplus Adapter
+# ioBroker vuplus Adapter
 ==============
+
+[![NPM version](http://img.shields.io/npm/v/iobroker.vuplus.svg)](https://www.npmjs.com/package/iobroker.vuplus)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.vuplus.svg)](https://www.npmjs.com/package/iobroker.vuplus)
+
+[![NPM](https://nodei.co/npm/iobroker.vuplus.png?downloads=true)](https://nodei.co/npm/iobroker.vuplus/)
+
 Adapter for ioBroker to connect to a vuplus or Sat receiver (Dreambox might work too).
 This adapter is based on BasGo's adapter for CCU.IO
 Testes with a vuplus duo2
+
+## Install
+
+## Configuration
+- IP Address of your vuplus receiver
+- Username
+- Passwort
+- Polling interval (default 20000ms)
+- Enigmalight Port (if is enabled) - Just enable webremote in the Settings of Enigmalight and set the Port to this Adapter (default: 1414)
+
+## Usage
+This adapter creates different states to control and monitor the vuplus box.
+
+## Changelog
+
+### 0.1.0 (2017-10-04)
+* (bluefox) make adapter installable
+* (bluefox) add Volume control, Mute Toggle, Channel UP/DOWN
 
 ### 0.0.4 (2017-09-10)
 * (NightWatcher) add support for EnigmaLight Server
@@ -14,24 +38,11 @@ Testes with a vuplus duo2
 ### 0.0.2 (2015-09-30)
 * (vader722) inital commit
 
-## Install
-
-## Configuration
-* - in ioBroker insert
- - IP Adress of your vuplus receiver
- - Username
- - Passwort
- - Polling interval (default 20000ms)
- - Enigmalight Port (if is enabled) - Just enable webremote in the Settings of Enigmalight and set the Port to this Adapter (default: 1414)
-
-## Usage
-This adapter creates different states to control and monitor the vuplus box.
-
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2015 vader722
+Copyright (c) 2015-2017 vader722
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
