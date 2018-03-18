@@ -175,7 +175,7 @@ function getEnigmaLightState()
 		res.on('end', function () {
 			var obj = JSON.parse(jsonString);
 			
-			adapter.setState('VuPlus.EnigmaLight.LightsOn', (obj.current_mode == 'Off' ? false : true));
+			adapter.setState('VuPlus.EnigmaLight.LightsOn', (obj.lights_onoff.toLowerCase() == 'off' ? false : true));
 			
 			adapter.log.debug("SUCCESS at collectiong Informations from EnigmaLight Server" + jsonString);
 		});
@@ -254,11 +254,14 @@ function evaluateCommandResponse (command, deviceId, xml) {
             break;
         case "GETINFO":
             adapter.log.debug("Box Sender: " +xml.e2abouts.e2about[0].e2servicename[0]);
-            adapter.log.debug("Box HDD capacity: " + xml.e2abouts.e2about[0].e2hddinfo[0].capacity[0]);
-            adapter.log.debug("Box HDD free: " +xml.e2abouts.e2about[0].e2hddinfo[0].free[0]);
             adapter.setState('VuPlus.CHANNEL', {val: xml.e2abouts.e2about[0].e2servicename[0], ack: true});
-            adapter.setState('VuPlus.HDD_CAPACITY', {val: xml.e2abouts.e2about[0].e2hddinfo[0].capacity[0], ack: true});
-            adapter.setState('VuPlus.HDD_FREE', {val: xml.e2abouts.e2about[0].e2hddinfo[0].free[0], ack: true});
+			if(xml.e2abouts.e2about[0].e2hddinfo !== undefined)
+			{
+				adapter.log.debug("Box HDD capacity: " + xml.e2abouts.e2about[0].e2hddinfo[0].capacity[0]);
+				adapter.log.debug("Box HDD free: " +xml.e2abouts.e2about[0].e2hddinfo[0].free[0]);
+				adapter.setState('VuPlus.HDD_CAPACITY', {val: xml.e2abouts.e2about[0].e2hddinfo[0].capacity[0], ack: true});
+				adapter.setState('VuPlus.HDD_FREE', {val: xml.e2abouts.e2about[0].e2hddinfo[0].free[0], ack: true});
+			}
 			
 			break;
         case "GETCURRENT":
