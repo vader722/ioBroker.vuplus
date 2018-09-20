@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "vuplus",
-        "version":                  "0.1.0",
+        "version":                  "0.1.1",
         "news": {
+            "0.1.1": {
+                "en": "send MESSAGE",
+                "de": "MESSAGE hinzugefügt",
+                "ru": ""
+            },
             "0.1.0": {
                 "en": "initial commit",
                 "de": "Erste Version",
@@ -63,6 +68,18 @@
             "native": {}
         },
         {
+            "_id":  "VuPlus.MESSAGE",
+            "type": "state",
+            "common": {
+                "role":  "state",
+                "name":  "Vu+ send info message to screen",
+                "type":  "string",
+                "read":  false,
+                "write": true
+            },
+            "native": {}
+        },
+        {
             "_id":  "VuPlus.VOLUME",
             "type": "state",
             "common": {
@@ -97,18 +114,6 @@
                 "type":  "boolean",
                 "read":  true,
                 "write": true
-            },
-            "native": {}
-        },
-        {
-            "_id":  "VuPlus.DOWNMIX",
-            "type": "state",
-            "common": {
-                "role":  "state",
-                "name":  "Vu+ downmix state",
-                "type":  "boolean",
-                "read":  true,
-                "write": false
             },
             "native": {}
         },
