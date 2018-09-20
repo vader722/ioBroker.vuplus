@@ -1,7 +1,7 @@
 {
   "name": "iobroker.vuplus",
   "description": "Adapter for ioBroker to connect to a vuplus or SAT receiver",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "engines": {
     "node": ">=4.0.0"
   },
