@@ -4,8 +4,8 @@
         "version":                  "0.1.1",
         "news": {
             "0.1.1": {
-                "en": "send MESSAGE",
-                "de": "MESSAGE hinzugefügt",
+                "en": "send MESSAGE, Admin3",
+                "de": "MESSAGE hinzugefügt, Admin3",
                 "ru": ""
             },
             "0.1.0": {
@@ -24,6 +24,7 @@
         "license":                  "MIT",
         "mode":                     "daemon",
         "icon":                     "vuplus.png",
+        "materialize":              true,
         "extIcon":                  "https://raw.githubusercontent.com/vader722/ioBroker.vuplus/master/admin/vuplus.png",
         "loglevel":                 "info",
         "type":                     "multimedia"
