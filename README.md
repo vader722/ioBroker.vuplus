@@ -29,6 +29,7 @@ This adapter creates different states to control and monitor the vuplus box.
 * (phlupp) remove DOWNMIX
 * (phlupp) add MESSAGE: send info message to screen
 * (phlupp) HDD_CAPACITY and HDD_FREE only if box has HDD.
++ (phlupp)(NightWatcher) Admin3
 
 ### 0.1.0 (2017-10-04)
 * (bluefox) make adapter installable
