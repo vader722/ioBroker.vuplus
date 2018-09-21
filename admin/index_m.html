@@ -1,0 +1,99 @@
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+<link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+
+<script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
+<script type="text/javascript" src="../../js/translate.js"></script>
+<script type="text/javascript" src="../../lib/js/materialize.js"></script>
+<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+<script type="text/javascript" src="words.js"></script>
+
+<!-- you have to define 2 functions in the global scope: -->
+<script type="text/javascript">
+
+    // the function loadSettings has to exist ...
+    function load(settings, onChange) {
+        
+	$('.value').each(function () {
+            var key = $(this).attr('id');
+            var $value = $('#' + key + '.value');
+            if ($value.attr('type') === 'checkbox') {
+               $value.prop('checked', settings[key]).on('change', function () {
+                    showHideSettings();
+                    onChange();
+                });
+            } else {
+                $value.val(settings[key])
+                    .on('change', onChange)
+                    .on('keyup', function () {
+                        onChange();
+                    });
+            }
+        });
+	    
+        onChange(false);
+	if (M) M.updateTextFields();
+    }
+
+    // ... and the function save has to exist.
+    // you have to make sure the callback is called with the settings object as first param!
+    function save(callback) {
+        // example: select elements with class=value and build settings object
+        var obj = {};
+        $('.value').each(function () {
+            var $this = $(this);
+            obj[$this.attr('id')] = $this.val();
+        });
+        callback(obj);
+    }
+</script>
+</head>
+
+<body>	
+<!-- you have to put your config page in a div with id adapter-container -->
+<div class="m adapter-container">
+	<div class="row">
+	    <div class="row">
+		<div class="input-field col s6">
+		    <img src="vuplus.png" class="logo">
+		</div>
+	    </div>
+	    <div class="row">
+		<div class="input-field col s12 m6 l4">
+		    <input class="value" id="IPAddress" type="text" />
+		    <label for="IPAddress" class="translate">IPAddress</label>
+		    <span></span>
+		</div>
+	    </div>
+	    <div class="row">
+		<div class="input-field col s12 m6 l4">
+		    <input class="value" id="Username" type="text" />
+		    <label for="Username" class="translate">Username</label>
+		    <span></span>
+		</div>
+		<div class="input-field col s12 m6 l4">
+		    <input class="value" id="Password" type="text" />
+		    <label for="Password" class="translate">Password</label>
+		    <span></span>
+		</div>
+	    </div>
+	    <div class="row">
+		<div class="input-field col s12 m6 l4">
+		    <input class="value" id="PollingInterval" type="number" min="0" />
+		    <label for="PollingInterval" class="translate">PollingInterval</label>
+		    <span></span>
+		</div>
+		<div class="input-field col s12 m6 l4">
+		    <input class="value" id="EnigmaLightPort" type="number" min="0" max="65565" />
+		    <label for="EnigmaLightPort" class="translate">EnigmaLight Port (if in use)</label>
+		    <span class="translate help">enigmalight_port_help</span>
+		</div>
+	    </div>
+	</div>
+</div>
+
+</html>

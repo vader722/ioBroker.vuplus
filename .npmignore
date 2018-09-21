@@ -1,4 +1,6 @@
 Gruntfile.js
+gulpfile.js
+admin/i18n
 tasks
 node_modules
 .idea

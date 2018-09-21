@@ -30,10 +30,9 @@ var PATH_VOLUME         = '/web/vol';
 var PATH_VOLUME_SET     = '/web/vol?set=set';
 var PATH_ABOUT          = '/web/about';
 var PATH_GET_CURRENT    = '/web/getcurrent';
-// var PATH_CHANNEL        = '/web/subservices';
 var PATH_POWERSTATE     = '/web/powerstate';
-var PATH_DOWNMIX        = '/web/downmix';
 var PATH_CONTROL_LIGHT  =  '/control/light?set=';
+var PATH_MESSAGE	= '/api/message?text=';
 
 var commands = {
     TOGGLE_MUTE:  CMD_MUTE_UNMUTE,
@@ -72,8 +71,7 @@ adapter.on('stateChange', function (id, state) {
                     adapter.setState('VuPlus.VOLUME', {val: parseInt(state.val, 10), ack: true, q: 0x42});
                 }
             });
-        } else
-        if (id === adapter.namespace + '.VuPlus.COMMAND') {
+        } else if (id === adapter.namespace + '.VuPlus.COMMAND') {
             adapter.log.debug('Its our Command: ' + state.val);
             getResponse('NONE', deviceId, PATH_REMOTE_CONTROL + state.val, function (error, command, deviceId, xml) {
                 if (!error) {
@@ -82,13 +80,21 @@ adapter.on('stateChange', function (id, state) {
                     adapter.setState('VuPlus.COMMAND', {val: state.val, ack: true, q: 0x42});
                 }
             });
-        } else
-		if (id === adapter.namespace + '.VuPlus.EnigmaLight.LightsOn') {
+        } else if (id === adapter.namespace + '.VuPlus.EnigmaLight.LightsOn') {
             setEnigmaLightState(PATH_CONTROL_LIGHT + (state.val === true || state.val === 'true' ? 'on' : 'off' ), function (error) {
                 if (!error) {
                     adapter.setState('VuPlus.EnigmaLight.LightsOn', (state.val === true || state.val === 'true'), true);
                 } else {
                     adapter.setState('VuPlus.EnigmaLight.LightsOn', {val: (state.val === true || state.val === 'true'), ack: true, q: 0x82});
+                }
+            });
+	} else if (id === adapter.namespace + '.VuPlus.MESSAGE') {
+            adapter.log.debug('Info message: ' + state.val);
+            getResponse('NONE', deviceId, PATH_MESSAGE + encodeURIComponent(state.val) + '&type=1&timeout=10', function (error, command, deviceId, xml) {
+                if (!error) {
+                    adapter.setState('VuPlus.MESSAGE', state.val, true);
+                } else {
+                    adapter.setState('VuPlus.MESSAGE', {val: state.val, ack: true, q: 0x42});
                 }
             });
 		}
@@ -270,17 +276,7 @@ function evaluateCommandResponse(error, command, deviceId, xml) {
             //setState(boxId + 1, parseBool(xml.e2powerstate.e2instandby));		// true|false
             break;
 
-        case 'GETDOWNMIX':
-            if (!xml.e2state) {
-                adapter.log.error('No e2state found');
-                return;
-            }
-            bool = parseBool(xml.e2state.e2state);
-            adapter.log.debug('Box DownMix: ' + bool);
-            adapter.setState('VuPlus.DOWNMIX', bool, true);
-            break;
-
-        case 'GETVOLUME':
+	case 'GETVOLUME':
             if (!xml.e2volume || !xml.e2volume.e2current) {
                 adapter.log.error('No e2volume found');
                 return;
@@ -299,13 +295,15 @@ function evaluateCommandResponse(error, command, deviceId, xml) {
                 return;
             }
             adapter.log.debug('Box Sender: '       + xml.e2abouts.e2about[0].e2servicename[0]);
-            adapter.log.debug('Box HDD capacity: ' + xml.e2abouts.e2about[0].e2hddinfo[0].capacity[0]);
-            adapter.log.debug('Box HDD free: '     + xml.e2abouts.e2about[0].e2hddinfo[0].free[0]);
-
             adapter.setState('VuPlus.CHANNEL',      xml.e2abouts.e2about[0].e2servicename[0],           true);
-            adapter.setState('VuPlus.HDD_CAPACITY', xml.e2abouts.e2about[0].e2hddinfo[0].capacity[0],   true);
-            adapter.setState('VuPlus.HDD_FREE',     xml.e2abouts.e2about[0].e2hddinfo[0].free[0],       true);
-			break;
+            if(xml.e2abouts.e2about[0].e2hddinfo !== undefined)
+		{
+		    adapter.log.debug("Box HDD capacity: " + xml.e2abouts.e2about[0].e2hddinfo[0].capacity[0]);
+		    adapter.log.debug("Box HDD free: " + xml.e2abouts.e2about[0].e2hddinfo[0].free[0]);
+		    adapter.setState('VuPlus.HDD_CAPACITY', {val: xml.e2abouts.e2about[0].e2hddinfo[0].capacity[0], ack: true});
+		    adapter.setState('VuPlus.HDD_FREE', {val: xml.e2abouts.e2about[0].e2hddinfo[0].free[0], ack: true});
+		}	    
+	    break;
 
         case 'GETCURRENT':
             if (!xml.e2currentserviceinformation || !xml.e2currentserviceinformation.e2eventlist) {
@@ -352,7 +350,6 @@ function checkStatus() {
             getResponse('GETINFO',    deviceId, PATH_ABOUT,       evaluateCommandResponse);
             getResponse('GETVOLUME',  deviceId, PATH_VOLUME,      evaluateCommandResponse);
             getResponse('GETCURRENT', deviceId, PATH_GET_CURRENT, evaluateCommandResponse);
-            getResponse('GETDOWNMIX', deviceId, PATH_DOWNMIX,     evaluateCommandResponse);
         } else {
             setConnection(false);
             adapter.log.debug('VUPlus: ' + adapter.config.IPAddress + ' is not reachable!');
